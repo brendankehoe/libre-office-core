@@ -1,0 +1,26 @@
+diff -ru jpeg-turbo.orig/simd/Makefile.in jpeg-turbo/simd/Makefile.in
+--- jpeg-turbo.orig/simd/Makefile.in	2015-09-21 20:48:45.000000000 +0200
++++ jpeg-turbo/simd/Makefile.in	2015-11-22 10:52:46.975285184 +0100
+@@ -769,8 +769,8 @@
+ .asm.lo:
+ 	$(AM_V_GEN) $(LIBTOOL) $(AM_V_lt) --mode=compile --tag NASM $(srcdir)/nasm_lt.sh $(AM_V_lt) $(NASM) $(NAFLAGS) -I$(srcdir) -I. $< -o $@
+ 
+-jsimdcfg.inc: $(srcdir)/jsimdcfg.inc.h ../jpeglib.h ../jconfig.h ../jmorecfg.h
+-	$(AM_V_GEN) $(CPP) -I$(top_builddir) -I$(top_builddir)/simd $(srcdir)/jsimdcfg.inc.h | $(EGREP) "^[\;%]|^\ %" | sed 's%_cpp_protection_%%' | sed 's@% define@%define@g' > $@
++jsimdcfg.inc: $(top_srcdir)/win/jsimdcfg.inc
++	cp $< $@
+ 
+ # Tell versions [3.59,3.63) of GNU make to not export all variables.
+ # Otherwise a system limit (for SysV at least) may be exceeded.
+diff -ru jpeg-turbo.orig/configure jpeg-turbo/configure
+--- jpeg-turbo.orig/configure   2015-11-22 15:57:23.702656000 +0100
++++ jpeg-turbo/configure        2015-11-22 15:59:37.084285000 +0100
+@@ -13931,7 +13931,7 @@
+
+ else
+
+-$as_echo "#define NEED_BSD_STRINGS 1" >>confdefs.h
++$as_echo "#undef NEED_BSD_STRINGS" >>confdefs.h
+
+ fi
+ done
